@@ -14,9 +14,10 @@ Vanilla JS & HTML 5 canvas
     - [x] Add webpack & source file structure
 - [ ] Basic map display
     - [x] Simple hex map datastructure
-    - [ ] Draw field (hex map) on screen
-        - [ ] Pieces
-        - [ ] Coordinates
+    - [x] Draw field (hex map) on screen
+        - [x] Circles
+        - [x] Values
+        - [x] Coordinates
     - [ ] Player zones
         - [ ] Add zones to hex map
         - [ ] Calculate player index (ordered according to rotation)

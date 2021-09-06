@@ -125,3 +125,14 @@ export class HexMap {
         this.cells[qKey][rKey] = value;
     }
 }
+
+// ordered by r -> -q
+// TODO: generate this based upon axis orientation choice?
+export const NEIGHBOURS = [
+    new HexVector(1, 0),
+    new HexVector(0, 1),
+    new HexVector(-1, 1),
+    new HexVector(-1, 0),
+    new HexVector(0, -1),
+    new HexVector(1, -1),
+]

@@ -13,7 +13,7 @@ Vanilla JS & HTML 5 canvas
 - [x] Setup
     - [x] Add webpack & source file structure
 - [ ] Basic map display
-    - [ ] Simple hex map datastructure
+    - [x] Simple hex map datastructure
     - [ ] Draw field (hex map) on screen
         - [ ] Pieces
         - [ ] Coordinates

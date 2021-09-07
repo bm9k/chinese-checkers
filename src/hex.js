@@ -39,6 +39,17 @@ export class HexVector {
     scale(factor) {
         return new HexVector(this.q * factor, this.r * factor);
     }
+
+    rotate(i) {
+        const {q, r, s} = this;
+        
+        const ps = [q, r, s];
+        
+        const sign = i % 2 === 1 ? -1 : 1;
+        const ps2 = [...ps.slice(i % 3), ...ps.slice(0, i % 3)].map(e => e * sign + 0);
+    
+        return new HexVector(ps2[0], ps2[1])
+    }
 }
 
 /**
@@ -167,6 +178,9 @@ export const CENTRE = new HexVector(0, 0);
 
 // ordered by r -> -q
 // TODO: generate this based upon axis orientation choice?
+// const firstNeighbour = new HexVector(1, 0);
+// export const NEIGHBOURS = [0, 1, 2, 3, 4, 5].map(i => firstNeighbour.rotate(i))
+
 export const NEIGHBOURS = [
     new HexVector(1, 0),
     new HexVector(0, 1),

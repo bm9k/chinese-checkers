@@ -9,6 +9,7 @@ import { HexVector } from "./hex";
 import { StarHexMap } from "./star";
 
 const FIELD_RADIUS = 4;
+const ROTATION = 1;
 
 const CELL_WIDTH = 35;
 const DOT_WIDTH = 28;
@@ -49,7 +50,7 @@ function draw(canvas, grid) {
     context.strokeStyle = "#555"
 
     for (const [key, value] of grid.entries()) {
-        const { x: x1, y: y1 } = hexToPixel(key, CELL_WIDTH);
+        const { x: x1, y: y1 } = hexToPixel(key.rotate(ROTATION), CELL_WIDTH);
         const x = x1 + OFFSET.x;
         const y = y1 + OFFSET.y;
 

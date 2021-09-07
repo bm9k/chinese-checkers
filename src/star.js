@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { HexMap } from "./hex";
+import { CENTRE, HexMap, NEIGHBOURS } from "./hex";
 
 /**
  * A representation of a hex map bounded by a star shape, such as is used 
@@ -42,6 +42,21 @@ export class StarHexMap extends HexMap {
 
     outerRegionId(key) {
         return calculateOuterRegion(key, this.innerRadius);
+    }
+
+    *outerRegionKeys(id) {
+        const fieldCorner = CENTRE.add(NEIGHBOURS[(4 + id) % 6].scale(this.innerRadius));
+        const deltaRow = NEIGHBOURS[(4 + id + 1) % 6];
+        const deltaColumn = NEIGHBOURS[(4 + id + 2) % 6];
+
+        for (let i = 1; i <= this.innerRadius; i++) {
+            const rowStart = fieldCorner.add(deltaRow.scale(i))
+            yield rowStart;
+
+            for (let j = 1; j < this.innerRadius - i + 1; j++) {
+                yield rowStart.add(deltaColumn.scale(j));
+            }
+        }
     }
 }
 

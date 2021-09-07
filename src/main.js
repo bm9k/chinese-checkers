@@ -43,6 +43,13 @@ function addTestValues(grid, values) {
     for (const [q, r, value] of values) {
         grid.set(new HexVector(q, r), value);
     }
+
+    // fill player zones
+    for (let i = 0; i < 6; i++) {
+        for (const key of grid.outerRegionKeys(i)) {
+            grid.set(key, i);
+        }
+    }
 }
 
 function draw(canvas, grid) {
@@ -57,7 +64,7 @@ function draw(canvas, grid) {
 
         const region = grid.outerRegionId(key);
 
-        const fillColour = region !== null ? PLAYER_COLOURS[region] : (value !== null ? PLAYER_COLOURS[value] : "#ddd")
+        const fillColour = value !== null ? PLAYER_COLOURS[value] : "#ddd";
 
         context.fillStyle = fillColour;
         context.strokeStyle = "black";
@@ -67,7 +74,11 @@ function draw(canvas, grid) {
         context.stroke();
 
         context.textAlign = "center"
-        context.strokeText(`(${key.q}, ${key.r}, ${key.s})`, x, y + DOT_WIDTH * .1);
+        context.strokeText(`(${key.q}, ${key.r}, ${key.s})`, x, y);
+
+        if (region !== null) {
+            context.strokeText(region, x, y + 17);
+        }
     }
 }
 

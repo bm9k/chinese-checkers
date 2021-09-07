@@ -35,17 +35,15 @@ function addTestValues(grid, values) {
     }
 }
 
-function draw(canvas, grid, keys) {
+function draw(canvas, grid) {
     const context = canvas.getContext("2d");
 
     context.strokeStyle = "#555"
 
-    for (const key of keys) {
+    for (const [key, value] of grid.entries()) {
         const { x: x1, y: y1 } = hexToPixel(key, CELL_WIDTH);
         const x = x1 + OFFSET.x;
         const y = y1 + OFFSET.y;
-
-        const value = grid.get(key);
 
         context.fillStyle = "#ddd";
         context.strokeStyle = "black";
@@ -72,28 +70,7 @@ function main() {
 
     addTestValues(grid, testValues)
 
-
-    // TODO: move this somewhere more appropriate
-    const centre = new HexVector(0, 0)
-    const keys = [centre];
-
-    // TODO: decompose?
-    for (let radius = 1; radius <= grid.radius; radius++) {
-        // TODO: add constant for first neighbour (4)
-        // this depends on the order in which neighbours are added in the loop below
-        // this could be any neighbour, but would require addition mod 6 in the loop below
-        let key = centre.add(NEIGHBOURS[4].multiply(radius));
-
-        for (let i = 0; i < 6; i++) {
-            for (let j = 0; j < radius; j++) {
-                keys.push(key);
-                key = key.add(NEIGHBOURS[i]);
-            }
-        }
-    }
-
-
-    draw(canvas, grid, keys);
+    draw(canvas, grid);
 }
 
 main();

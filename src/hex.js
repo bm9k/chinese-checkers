@@ -124,7 +124,36 @@ export class HexMap {
         const [qKey, rKey] = this._key(hex);
         this.cells[qKey][rKey] = value;
     }
+
+    // TODO: comment this
+    *[Symbol.iterator]() {
+        yield CENTRE;
+
+        // TODO: decompose?
+        for (let radius = 1; radius <= this.radius; radius++) {
+            // TODO: add constant for first neighbour (4)
+            // this depends on the order in which neighbours are added in the loop below
+            // this could be any neighbour, but would require addition mod 6 in the loop below
+            let key = CENTRE.add(NEIGHBOURS[4].multiply(radius));
+
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < radius; j++) {
+                    yield key;
+                    key = key.add(NEIGHBOURS[i]);
+                }
+            }
+        }
+    }
+
+    // TODO: comment this
+    *entries() {
+        for (const key of this) {
+            yield [key, this.get(key)];
+        }
+    }
 }
+
+export const CENTRE = new HexVector(0, 0);
 
 // ordered by r -> -q
 // TODO: generate this based upon axis orientation choice?

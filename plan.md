@@ -24,6 +24,7 @@ Vanilla JS & HTML 5 canvas
         - [x] Player colours
     - [x] Rotate arbitrary player to bottom of screen
     - [ ] Draw borders
+        - [x] Simple border
         - [ ] Smoothness option
 - [ ] 2 player game
     - [ ] Active piece selection

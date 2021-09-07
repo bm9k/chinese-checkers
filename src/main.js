@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import { HexVector } from "./hex";
+import { HexVector, NEIGHBOURS, CENTRE } from "./hex";
 import { StarHexMap } from "./star";
 import { PLAYER_COLOURS } from "./colours";
 
@@ -52,7 +52,28 @@ function addTestValues(grid, values) {
     }
 }
 
-function draw(canvas, grid) {
+function drawEdges(context, edgeVertices) {
+    edgeVertices = edgeVertices.map(v => {
+        let {x, y} = hexToPixel(v, CELL_WIDTH);
+        x += OFFSET.x;
+        y += OFFSET.y;
+
+        return {x, y}
+    })
+
+    context.beginPath();
+    
+    const v = edgeVertices[edgeVertices.length - 1];
+    context.moveTo(v.x, v.y);
+
+    for (const v of edgeVertices) {
+        context.lineTo(v.x, v.y);
+    }
+
+    context.stroke()
+}
+
+function draw(canvas, grid, edgeVertices) {
     const context = canvas.getContext("2d");
 
     context.strokeStyle = "#555"
@@ -80,6 +101,27 @@ function draw(canvas, grid) {
             context.strokeText(region, x, y + 17);
         }
     }
+
+    drawEdges(context, edgeVertices);
+}
+
+function calculateEdges(grid, padding=0.7) {
+    // draw edges
+    let vertices = []
+    const size = grid.innerRadius;
+
+    for (let i = 0; i < 6; i++) {
+        const fieldCornerDirection = NEIGHBOURS[i];
+        const tipDirection = NEIGHBOURS[(i + 1) % 6];
+
+        const fieldCorner = CENTRE.add(fieldCornerDirection.scale(size + padding));
+        vertices.push(fieldCorner);
+
+        const v2 = fieldCorner.add(tipDirection.scale(size + padding));
+        vertices.push(v2);
+    }
+
+    return vertices
 }
 
 function main() {
@@ -89,10 +131,11 @@ function main() {
     canvas.height = window.innerHeight;
 
     const grid = new StarHexMap(FIELD_RADIUS);
+    const edgeVertices = calculateEdges(grid);
 
     addTestValues(grid, testValues)
 
-    draw(canvas, grid);
+    draw(canvas, grid, edgeVertices);
 }
 
 main();

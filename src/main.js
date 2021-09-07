@@ -105,20 +105,26 @@ function draw(canvas, grid, edgeVertices) {
     drawEdges(context, edgeVertices);
 }
 
-function calculateEdges(grid, padding=0.7) {
+function calculateEdges(grid, padding = 0.75, tipFlatness = 0.7) {
     // draw edges
     let vertices = []
     const size = grid.innerRadius;
 
     for (let i = 0; i < 6; i++) {
         const fieldCornerDirection = NEIGHBOURS[i];
-        const tipDirection = NEIGHBOURS[(i + 1) % 6];
+        const tipDirection1 = NEIGHBOURS[(i + 1) % 6];
+        const tipDirection2 = NEIGHBOURS[(i + 2) % 6];
 
         const fieldCorner = CENTRE.add(fieldCornerDirection.scale(size + padding));
         vertices.push(fieldCorner);
 
-        const v2 = fieldCorner.add(tipDirection.scale(size + padding));
+        const v2 = fieldCorner.add(tipDirection1.scale(size - tipFlatness + padding));
         vertices.push(v2);
+
+        if (tipFlatness > 0) {
+            const v3 = v2.add(tipDirection2.scale(tipFlatness));
+            vertices.push(v3);
+        }
     }
 
     return vertices

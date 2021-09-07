@@ -23,9 +23,9 @@ Vanilla JS & HTML 5 canvas
         - [x] Calculate player index (ordered according to rotation)
         - [x] Player colours
     - [x] Rotate arbitrary player to bottom of screen
-    - [ ] Draw borders
+    - [x] Draw borders
         - [x] Simple border
-        - [ ] Smoothness option
+        - [x] Smoothness option
 - [ ] 2 player game
     - [ ] Active piece selection
     - [ ] Movement

@@ -125,22 +125,32 @@ export class HexMap {
         this.cells[qKey][rKey] = value;
     }
 
+    _valid_key(key) {
+        return this.isHexValid();
+    }
+
+    *ringKeys(radius) {
+        if (radius === 0) {    
+            yield CENTRE;
+            return;
+        }
+
+        let key = CENTRE.add(NEIGHBOURS[4].multiply(radius));
+
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < radius; j++) {
+                yield key;
+                
+                key = key.add(NEIGHBOURS[i]);
+            }
+        }
+    }
+
     // TODO: comment this
     *[Symbol.iterator]() {
-        yield CENTRE;
-
-        // TODO: decompose?
-        for (let radius = 1; radius <= this.radius; radius++) {
-            // TODO: add constant for first neighbour (4)
-            // this depends on the order in which neighbours are added in the loop below
-            // this could be any neighbour, but would require addition mod 6 in the loop below
-            let key = CENTRE.add(NEIGHBOURS[4].multiply(radius));
-
-            for (let i = 0; i < 6; i++) {
-                for (let j = 0; j < radius; j++) {
-                    yield key;
-                    key = key.add(NEIGHBOURS[i]);
-                }
+        for (let radius = 0; radius <= this.radius; radius++) {
+            for (const key of this.ringKeys(radius)) {
+                yield key;
             }
         }
     }

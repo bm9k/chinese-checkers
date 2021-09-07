@@ -20,7 +20,7 @@ Vanilla JS & HTML 5 canvas
         - [x] Coordinates
     - [ ] Player zones
         - [x] Add zones to hex map
-        - [ ] Calculate player index (ordered according to rotation)
+        - [x] Calculate player index (ordered according to rotation)
         - [ ] Player colours
     - [ ] Rotate arbitrary player to bottom of screen
     - [ ] Draw borders

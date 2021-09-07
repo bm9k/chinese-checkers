@@ -39,4 +39,49 @@ export class StarHexMap extends HexMap {
             }
         }
     }
+
+    outerRegionId(key) {
+        return calculateOuterRegion(key, this.innerRadius);
+    }
+}
+
+// TODO: improve readability
+const outerRegionHexants = [
+    // i2, i1, i0   =>  j2, j1, j0
+    [1, 0, 1],  // 000
+    [1, 0, 0],  // 001
+    [1, 1, 0],  // 010
+    [0, 1, 0],  // 011
+    [0, 1, 1],  // 100
+    [0, 0, 1],  // 101
+]
+
+// j2 = ~i2 & i0
+// j1 = i1 & ~i0
+// j0 = i2 ^ i1 ^ i0
+
+const outerRegions = [null];
+
+for (let i = 0; i < 6; i++) {
+    outerRegions.push(null);
+}
+
+for (const [i, [q, r, s]] of outerRegionHexants.entries()) {
+    const key = q * 4 + r * 2 + s * 1;
+    outerRegions[key] = i;
+}
+
+function calculateOuterRegion(hex, middleEdge) {
+    const length = hex.length();
+
+    if (length <= middleEdge) {
+        return null;
+    }
+
+    const {q, r, s} = hex;
+    const [q1, r1, s1] = [q, r, s].map(e => e > 0 ? 1 : 0);
+    const key = q1 * 4 + r1 * 2 + s1 * 1;
+
+    return outerRegions[key];
+
 }

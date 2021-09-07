@@ -53,6 +53,8 @@ function draw(canvas, grid) {
         const x = x1 + OFFSET.x;
         const y = y1 + OFFSET.y;
 
+        const region = grid.outerRegionId(key);
+
         context.fillStyle = "#ddd";
         context.strokeStyle = "black";
         context.beginPath();
@@ -64,6 +66,9 @@ function draw(canvas, grid) {
         if (value !== null) {
             context.strokeStyle = "red";
             context.strokeText(value, x, y + DOT_WIDTH * .6);
+        } else if (region !== null) {
+            context.strokeStyle = "blue";
+            context.strokeText(region, x, y + DOT_WIDTH * .6);
         }
     }
 }

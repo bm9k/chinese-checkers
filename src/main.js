@@ -1,6 +1,14 @@
-import { HexMap, HexVector, NEIGHBOURS } from "./hex";
+/**
+ * Copyright (c) Benjamin Martin
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
 
-const RADIUS = 4;
+import { HexVector } from "./hex";
+import { StarHexMap } from "./star";
+
+const FIELD_RADIUS = 4;
 
 const CELL_WIDTH = 35;
 const DOT_WIDTH = 28;
@@ -66,7 +74,7 @@ function main() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const grid = new HexMap(RADIUS);
+    const grid = new StarHexMap(FIELD_RADIUS);
 
     addTestValues(grid, testValues)
 

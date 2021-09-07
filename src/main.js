@@ -7,6 +7,7 @@
 
 import { HexVector } from "./hex";
 import { StarHexMap } from "./star";
+import { PLAYER_COLOURS } from "./colours";
 
 const FIELD_RADIUS = 4;
 const ROTATION = 1;
@@ -56,21 +57,17 @@ function draw(canvas, grid) {
 
         const region = grid.outerRegionId(key);
 
-        context.fillStyle = "#ddd";
+        const fillColour = region !== null ? PLAYER_COLOURS[region] : (value !== null ? PLAYER_COLOURS[value] : "#ddd")
+
+        context.fillStyle = fillColour;
         context.strokeStyle = "black";
         context.beginPath();
         context.arc(x, y, DOT_WIDTH, 0, Math.PI * 2);
+        context.fill();
         context.stroke();
 
         context.textAlign = "center"
-        context.strokeText(`(${key.q}, ${key.r}, ${key.s})`, x, y - DOT_WIDTH * .1);
-        if (value !== null) {
-            context.strokeStyle = "red";
-            context.strokeText(value, x, y + DOT_WIDTH * .6);
-        } else if (region !== null) {
-            context.strokeStyle = "blue";
-            context.strokeText(region, x, y + DOT_WIDTH * .6);
-        }
+        context.strokeText(`(${key.q}, ${key.r}, ${key.s})`, x, y + DOT_WIDTH * .1);
     }
 }
 
